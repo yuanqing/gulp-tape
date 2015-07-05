@@ -1,0 +1,32 @@
+{
+  "name": "gulp-tape",
+  "version": "0.0.0",
+  "description": "Run `tape` tests in Gulp.",
+  "author": "Lim Yuan Qing",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/yuanqing/gulp-tape.git"
+  },
+  "dependencies": {
+    "gulp-util": "^3.0.6",
+    "lodash.foreach": "^3.0.3",
+    "require-uncached": "^1.0.2",
+    "tape": "^4.0.0",
+    "through2": "^2.0.0"
+  },
+  "devDependencies": {
+    "gulp": "^3.9.0",
+    "jshint": "^2.8.0"
+  },
+  "scripts": {
+    "build": "npm run lint && npm test",
+    "lint": "jshint --verbose index.js",
+    "test": "gulp --cwd test"
+  },
+  "keywords": [
+    "gulpplugin",
+    "tape",
+    "test"
+  ]
+}
