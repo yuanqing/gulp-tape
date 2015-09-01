@@ -10,6 +10,7 @@ var PLUGIN_NAME = 'gulp-tape';
 
 var gulpTape = function(opts) {
   opts = opts || {};
+
   var outputStream = opts.outputStream || process.stdout;
   var files = [];
   var transform = function(file, encoding, cb) {
@@ -24,7 +25,13 @@ var gulpTape = function(opts) {
   };
   var flush = function(cb) {
     try {
-      tape.createStream().pipe(outputStream);
+      if (outputStream === process.stdout) {
+        tape.createStream().pipe(outputStream);
+      } else if (typeof outputStream === 'function') {
+        tape.createStream().pipe(outputStream()).pipe(process.stdout);
+      } else {
+        tape.createStream().pipe(outputStream).pipe(process.stdout);
+      }
       forEach(files, function(file) {
         requireUncached(file);
       });
