@@ -17,7 +17,8 @@
   },
   "devDependencies": {
     "gulp": "^3.9.0",
-    "jshint": "^2.8.0"
+    "jshint": "^2.8.0",
+    "tap-colorize": "^1.2.0"
   },
   "scripts": {
     "build": "npm run lint && npm test",
