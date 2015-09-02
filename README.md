@@ -8,13 +8,18 @@
 'use strict';
 
 var gulp = require('gulp');
-var tape = require('gulp-tape');
+var tape = require('../');
+var tapColorize = require('tap-colorize');
 
 gulp.task('default', function() {
-  return gulp.src('test/*.js')
-    .pipe(tape());
+  return gulp.src('fixtures/*.js')
+    .pipe(tape({
+      reporter: tapColorize()
+    }));
 });
 ```
+
+The `reporter` is optional.
 
 ## API
 
@@ -24,7 +29,11 @@ var tape = require('gulp-tape');
 
 ### tape([opts])
 
-Set the stream to [pipe the test output](https://github.com/substack/tape#tap-stream-reporter) by passing in `opts.outputStream`. Defaults to `process.stdout`.
+`opts` is an object literal that can take the following keys:
+
+- `outputStream` &mdash; The stream to [pipe the test output](https://github.com/substack/tape#tap-stream-reporter). Defaults to `process.stdout`.
+
+- `reporter` &mdash; The reporter (a stream, as in [`tap-colorize`](https://github.com/substack/tap-colorize)) to format the TAP output. The output is simply *not* formatted if a `reporter` is not specified.
 
 ## Installation
 
