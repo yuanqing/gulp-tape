@@ -2,7 +2,6 @@
 
 var tape = require('tape');
 var through = require('through2');
-var forEach = require('lodash.foreach');
 var PluginError = require('gulp-util').PluginError;
 var requireUncached = require('require-uncached');
 
@@ -29,13 +28,13 @@ var gulpTape = function(opts) {
   var flush = function(cb) {
     try {
       tape.createStream().pipe(reporter).pipe(outputStream);
-      forEach(files, function(file) {
+      files.forEach(function(file) {
         requireUncached(file);
       });
       var tests = tape.getHarness()._tests;
       var pending = tests.length;
-      tests.forEach(function (t) {
-        t.once('end', function () {
+      tests.forEach(function(test) {
+        test.once('end', function() {
           if (--pending === 0) {
             cb();
           }
