@@ -32,7 +32,15 @@ var gulpTape = function(opts) {
       forEach(files, function(file) {
         requireUncached(file);
       });
-      cb();
+      var tests = tape.getHarness()._tests;
+      var pending = tests.length;
+      tests.forEach(function (t) {
+        t.once('end', function () {
+          if (--pending === 0) {
+            cb();
+          }
+        });
+      });
     } catch (err) {
       cb(new PluginError(PLUGIN_NAME, err));
     }

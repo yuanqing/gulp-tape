@@ -17,6 +17,7 @@
   },
   "devDependencies": {
     "gulp": "^3.9.0",
+    "gulp-istanbul": "^0.10.1",
     "jshint": "^2.8.0",
     "tap-colorize": "^1.2.0"
   },
