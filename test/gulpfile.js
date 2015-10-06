@@ -1,24 +1,24 @@
 'use strict';
 
 var gulp = require('gulp');
-var tape = require('../');
+var istanbul = require('gulp-istanbul');
 var tapColorize = require('tap-colorize');
 
-gulp.task('default', ['istanbul'], function() {
-  return gulp.src('fixtures/*.js')
+var tape = require('../');
+
+gulp.task('test', function() {
+  return gulp.src('fixtures/test/*.js')
     .pipe(tape({
       reporter: tapColorize()
     }));
 });
 
-
 gulp.task('istanbul', function(cb) {
-  var istanbul = require('gulp-istanbul');
-  gulp.src('fixtures/istanbul/lib/*.js')
+  gulp.src('fixtures/*.js')
     .pipe(istanbul())
     .pipe(istanbul.hookRequire())
     .on('finish', function() {
-      gulp.src('fixtures/istanbul/*.js')
+      gulp.src('fixtures/test/*.js')
         .on('error', cb)
         .on('end', cb)
         .pipe(tape())
@@ -37,4 +37,3 @@ gulp.task('istanbul', function(cb) {
         }));
     });
 });
-

@@ -1,15 +1,14 @@
 'use strict';
 
 var test = require('tape');
-var abs = require('./lib/abs');
+var abs = require('../');
 
-test('abs, negative', function(t) {
+test('negative', function(t) {
   t.equal(abs(-1), 1);
   t.end();
 });
 
-test('abs, positive', function(t) {
+test('positive', function(t) {
   t.equal(abs(1), 1);
   t.end();
 });
-

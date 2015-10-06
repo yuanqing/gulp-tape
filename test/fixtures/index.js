@@ -1,4 +1,6 @@
-module.exports = function (v) {
+'use strict';
+
+module.exports = function(v) {
   if (v > 0) {
     return v;
   }
@@ -7,4 +9,3 @@ module.exports = function (v) {
   }
   return 0;
 };
-
