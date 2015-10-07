@@ -33,6 +33,9 @@ var gulpTape = function(opts) {
       });
       var tests = tape.getHarness()._tests;
       var pending = tests.length;
+      if (pending === 0) {
+        return cb();
+      }
       tests.forEach(function(test) {
         test.once('end', function() {
           if (--pending === 0) {
