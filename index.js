@@ -1,54 +1,65 @@
 'use strict';
 
-var tape = require('tape');
+var fork = require('child_process').fork;
+var path = require('path');
 var through = require('through2');
+var merge = require('lodash.merge');
 var PluginError = require('gulp-util').PluginError;
-var requireUncached = require('require-uncached');
+var entry = path.resolve(__dirname, './fork.js');
 
-var PLUGIN_NAME = 'gulp-tape';
+function createError(payload) {
+  return new PluginError('gulp-tape', payload);
+}
 
-var gulpTape = function(opts) {
+function getTestRunner(reporter, outputStream, map, callback) {
+  return through.obj(function(file, encoding, cb) {
+    if (file.isNull()) {
+      return cb(null, file);
+    }
+
+    if (file.isStream()) {
+      return cb(createError('Streaming is not supported'));
+    }
+
+    fork(entry, [file.contents.toString(), file.path, JSON.stringify(map || {})], {
+      silent: true
+    }).on('error', function(err){
+        console.error(err);
+        cb(createError(err));
+      })
+      .on('exit', function(code){
+        if (code !== 0) {
+          return cb(createError(file.path + ' exited with non-zero code: ' + code));
+        }
+        cb(null, file);
+      })
+      .on('message', function(payload){
+        merge(global, payload);
+      }).stdout.pipe(reporter).pipe(outputStream);
+  }, callback);
+}
+
+function gulpTape(opts) {
   opts = opts || {};
 
   var outputStream = opts.outputStream || process.stdout;
   var reporter     = opts.reporter     || through.obj();
-  var files        = [];
+  var exec         = opts.exec;
 
-  var transform = function(file, encoding, cb) {
-    if (file.isNull()) {
-      return cb(null, file);
-    }
-    if (file.isStream()) {
-      return cb(new PluginError(PLUGIN_NAME, 'Streaming is not supported'));
-    }
-    files.push(file.path);
-    cb(null, file);
-  };
+  if (!exec) {
+    return getTestRunner(reporter, outputStream);
+  } else {
+    var map = {};
 
-  var flush = function(cb) {
-    try {
-      tape.createStream().pipe(reporter).pipe(outputStream);
-      files.forEach(function(file) {
-        requireUncached(file);
-      });
-      var tests = tape.getHarness()._tests;
-      var pending = tests.length;
-      if (pending === 0) {
-        return cb();
-      }
-      tests.forEach(function(test) {
-        test.once('end', function() {
-          if (--pending === 0) {
-            cb();
-          }
-        });
-      });
-    } catch (err) {
-      cb(new PluginError(PLUGIN_NAME, err));
-    }
-  };
-
-  return through.obj(transform, flush);
-};
+    return through.obj(function(file, encoding, cb){
+      map[file.path] = file.contents.toString();
+      cb(null, file);
+    }, function(callback){
+      exec.pipe(getTestRunner(reporter, outputStream, map, function(){
+        callback();
+      })).on('error', callback);
+    });
+  }
+}
 
 module.exports = gulpTape;

@@ -10,15 +10,18 @@
   },
   "dependencies": {
     "gulp-util": "^3.0.6",
-    "require-uncached": "^1.0.2",
-    "tape": "^4.2.1",
+    "lodash.merge": "^3.3.2",
     "through2": "^2.0.0"
   },
   "devDependencies": {
     "gulp": "^3.9.0",
     "gulp-istanbul": "^0.10.1",
     "jshint": "^2.8.0",
-    "tap-colorize": "^1.2.0"
+    "tap-colorize": "^1.2.0",
+    "tape": "^4.2.2"
+  },
+  "peerDependencies": {
+    "tape": "*"
   },
   "scripts": {
     "build": "npm run lint && npm test",

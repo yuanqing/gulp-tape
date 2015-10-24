@@ -1,7 +1,8 @@
 'use strict';
 
 var test = require('tape');
-var abs = require('../');
+var abs = require('../index.js');
+
 
 test('negative', function(t) {
   t.equal(abs(-1), 1);
@@ -10,5 +11,8 @@ test('negative', function(t) {
 
 test('positive', function(t) {
   t.equal(abs(1), 1);
-  t.end();
+
+  setTimeout(function(){
+    t.end();
+  }, 1000);
 });

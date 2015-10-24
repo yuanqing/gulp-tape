@@ -38,7 +38,7 @@ var tape = require('gulp-tape');
 Install via [npm](https://npmjs.com/):
 
 ```
-$ npm i --save gulp-tape
+$ npm i --save gulp-tape tape
 ```
 
 ## License
