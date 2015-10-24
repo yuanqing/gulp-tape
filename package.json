@@ -19,6 +19,9 @@
     "tap-colorize": "^1.2.0",
     "tape": "^4.2.2"
   },
+  "peerDependencies": {
+    "tape": "*"
+  },
   "scripts": {
     "build": "npm run lint && npm test",
     "lint": "jshint --verbose index.js",
