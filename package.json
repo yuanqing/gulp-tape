@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "gulp-util": "^3.0.6",
+    "lodash.merge": "^3.3.2",
     "through2": "^2.0.0"
   },
   "devDependencies": {
