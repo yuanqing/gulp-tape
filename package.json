@@ -9,13 +9,13 @@
     "url": "git://github.com/yuanqing/gulp-tape.git"
   },
   "dependencies": {
-    "gulp-util": "^3.0.6",
+    "gulp-util": "^3.0.7",
     "require-uncached": "^1.0.2",
     "through2": "^2.0.0"
   },
   "devDependencies": {
     "gulp": "^3.9.0",
-    "gulp-istanbul": "^0.10.1",
+    "gulp-istanbul": "^0.10.2",
     "jshint": "^2.8.0",
     "tap-colorize": "^1.2.0"
   },
