@@ -31,14 +31,14 @@ var tape = require('gulp-tape');
 
 - `outputStream` &mdash; The stream to [pipe the test output](https://github.com/substack/tape#tap-stream-reporter). Defaults to `process.stdout`.
 
-- `reporter` &mdash; The reporter (a readable/writable stream, as in [`tap-colorize`](https://github.com/substack/tap-colorize)) to format the TAP output. The output is simply not formatted if this isn&rsquo;t specified.
+- `reporter` &mdash; The [reporter](https://github.com/substack/tape#pretty-reporters) (a readable/writable stream, as in [`tap-colorize`](https://github.com/substack/tap-colorize)) to format the TAP output. The output is simply not formatted if this isn&rsquo;t specified.
 
 ## Installation
 
-Install via [npm](https://npmjs.com/):
+Install via [npm](https://npmjs.com/) (together with [Tape](https://github.com/substack/tape)):
 
 ```
-$ npm i --save gulp-tape
+$ npm i --save-dev gulp-tape tape
 ```
 
 ## License
