@@ -33,7 +33,7 @@ var tape = require('gulp-tape');
 
 - `reporter` &mdash; The [reporter](https://github.com/substack/tape#pretty-reporters) (a readable/writable stream, as in [`tap-colorize`](https://github.com/substack/tap-colorize)) to format the TAP output. The output is simply not formatted if this isn&rsquo;t specified.
 
-- `tapeOpts` &mdash; The options passed to [tape.createStream](https://github.com/substack/tape#var-stream--testcreatestreamopts).
+- `tapeOpts` &mdash; The options passed to [`tape.createStream`](https://github.com/substack/tape#var-stream--testcreatestreamopts).
 
 ## Installation
 
