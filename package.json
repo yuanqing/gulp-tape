@@ -17,6 +17,7 @@
     "gulp": "^3.9.0",
     "gulp-istanbul": "^0.10.2",
     "jshint": "^2.8.0",
+    "tape": "*",
     "tap-colorize": "^1.2.0"
   },
   "peerDependencies": {
