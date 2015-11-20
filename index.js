@@ -12,6 +12,7 @@ var gulpTape = function(opts) {
 
   var outputStream = opts.outputStream || process.stdout;
   var reporter     = opts.reporter     || through.obj();
+  var tapeOpts     = opts.tapeOpts     || {};
   var files        = [];
 
   var transform = function(file, encoding, cb) {
@@ -27,7 +28,7 @@ var gulpTape = function(opts) {
 
   var flush = function(cb) {
     try {
-      tape.createStream().pipe(reporter).pipe(outputStream);
+      tape.createStream(tapeOpts).pipe(reporter).pipe(outputStream);
       files.forEach(function(file) {
         requireUncached(file);
       });
