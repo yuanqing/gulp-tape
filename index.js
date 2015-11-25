@@ -32,17 +32,18 @@ var gulpTape = function(opts) {
       files.forEach(function(file) {
         requireUncached(file);
       });
-      var tests = tape.getHarness()._tests;
-      var pending = tests.length;
-      if (pending === 0) {
-        return cb();
-      }
-      tests.forEach(function(test) {
-        test.once('end', function() {
-          if (--pending === 0) {
-            cb();
-          }
-        });
+      var closed = false;
+      var harness = tape.getHarness();
+      var results = harness._results;
+      harness.close = function () {
+        if (!closed) {
+          closed = true;
+          results.close();
+          cb();
+        }
+      };
+      results.once('done', function () {
+        harness.close();
       });
     } catch (err) {
       cb(new PluginError(PLUGIN_NAME, err));
