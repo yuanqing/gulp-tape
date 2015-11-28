@@ -28,22 +28,22 @@ var gulpTape = function(opts) {
 
   var flush = function(cb) {
     try {
-      tape.createStream(tapeOpts).pipe(reporter).pipe(outputStream);
+      var tapeOutput = tape.createStream(tapeOpts);
+      tapeOutput.pipe(reporter).pipe(outputStream);
       files.forEach(function(file) {
         requireUncached(file);
       });
-      var tests = tape.getHarness()._tests;
-      var pending = tests.length;
-      if (pending === 0) {
-        return cb();
-      }
-      tests.forEach(function(test) {
-        test.once('end', function() {
-          if (--pending === 0) {
-            cb();
-          }
-        });
+      var results = tape.getHarness()._results;
+      results.once('done', function () {
+        tapeOutput.push(null);
+        cb();
       });
+
+      // Each time `tape.createStream` is called,
+      // `results._stream` `pipe` to a new output stream,
+      // and more listeners are added.
+      // So we have to remove the max limit.
+      results._stream.setMaxListeners(0);
     } catch (err) {
       cb(new PluginError(PLUGIN_NAME, err));
     }
