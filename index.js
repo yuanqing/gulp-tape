@@ -35,7 +35,21 @@ var gulpTape = function(opts) {
       });
       var results = tape.getHarness()._results;
       results.once('done', function () {
+
+        // The following messages will never reach the reporter,
+        // if we end the tape output here.
+        var write = this._stream.push.bind(this._stream);
+        write('\n1..' + this.count + '\n');
+        write('# tests ' + this.count + '\n');
+        write('# pass  ' + this.pass + '\n');
+        if (this.fail) {
+          write('# fail  ' + this.fail + '\n');
+        } else {
+          write('\n# ok\n');
+        }
+
         tapeOutput.push(null);
+
         cb();
       });
 
