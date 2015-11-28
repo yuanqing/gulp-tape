@@ -48,6 +48,12 @@ var gulpTape = function(opts) {
           write('\n# ok\n');
         }
 
+        // Reset the results status
+        this.count = 0;
+        this.fail = 0;
+        this.pass = 0;
+        this.tests.length = 0;
+
         tapeOutput.push(null);
 
         cb();
