@@ -28,8 +28,8 @@ var gulpTape = function(opts) {
 
   var flush = function(cb) {
     try {
-      var tapeOutput = tape.createStream(tapeOpts);
-      tapeOutput.pipe(reporter).pipe(outputStream);
+      var tapeStream = tape.createStream(tapeOpts);
+      tapeStream.pipe(reporter).pipe(outputStream);
       files.forEach(function(file) {
         requireUncached(file);
       });
@@ -52,9 +52,8 @@ var gulpTape = function(opts) {
         this.count = 0;
         this.fail = 0;
         this.pass = 0;
-        this.tests.length = 0;
 
-        tapeOutput.push(null);
+        tapeStream.push(null);
 
         cb();
       });
