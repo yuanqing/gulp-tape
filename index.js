@@ -28,22 +28,41 @@ var gulpTape = function(opts) {
 
   var flush = function(cb) {
     try {
-      tape.createStream(tapeOpts).pipe(reporter).pipe(outputStream);
+      var tapeStream = tape.createStream(tapeOpts);
+      tapeStream.pipe(reporter).pipe(outputStream);
       files.forEach(function(file) {
         requireUncached(file);
       });
-      var tests = tape.getHarness()._tests;
-      var pending = tests.length;
-      if (pending === 0) {
-        return cb();
-      }
-      tests.forEach(function(test) {
-        test.once('end', function() {
-          if (--pending === 0) {
-            cb();
-          }
-        });
+      var results = tape.getHarness()._results;
+      results.once('done', function () {
+
+        // The following messages will never reach the reporter,
+        // if we end the tape output here.
+        var write = this._stream.push.bind(this._stream);
+        write('\n1..' + this.count + '\n');
+        write('# tests ' + this.count + '\n');
+        write('# pass  ' + this.pass + '\n');
+        if (this.fail) {
+          write('# fail  ' + this.fail + '\n');
+        } else {
+          write('\n# ok\n');
+        }
+
+        // Reset the results status
+        this.count = 0;
+        this.fail = 0;
+        this.pass = 0;
+
+        tapeStream.push(null);
+
+        cb();
       });
+
+      // Each time `tape.createStream` is called,
+      // `results._stream` `pipe` to a new output stream,
+      // and more listeners are added.
+      // So we have to remove the max limit.
+      results._stream.setMaxListeners(0);
     } catch (err) {
       cb(new PluginError(PLUGIN_NAME, err));
     }
