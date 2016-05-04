@@ -35,6 +35,8 @@ var tape = require('gulp-tape');
 
 - `tapeOpts` &mdash; The options passed to [`tape.createStream`](https://github.com/substack/tape#var-stream--testcreatestreamopts).
 
+- `bail` &mdash; Whether to stop the Gulp process on the first failing assertion. Defaults to `false`.
+
 ## Installation
 
 Install via [npm](https://npmjs.com/) (together with [Tape](https://github.com/substack/tape)):
