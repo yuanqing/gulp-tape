@@ -9,6 +9,7 @@ var tape = require('../');
 gulp.task('test', function() {
   return gulp.src('fixtures/test/*.js')
     .pipe(tape({
+      bail: true,
       reporter: tapColorize()
     }));
 });
@@ -36,4 +37,8 @@ gulp.task('istanbul', function(cb) {
           },
         }));
     });
+});
+
+gulp.task('watch', function() {
+  gulp.watch('fixtures/test/*.js', ['test']);
 });
