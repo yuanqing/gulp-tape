@@ -47,7 +47,10 @@ var gulpTape = function(opts) {
         write('# pass  ' + this.pass + '\n');
         if (this.fail) {
           write('# fail  ' + this.fail + '\n');
-          shouldErrorOut = bail && true;
+
+          // Some test failed; we should error out if and only if `bail`
+          // is `true`.
+          shouldErrorOut = bail;
         } else {
           write('\n# ok\n');
         }
@@ -59,7 +62,6 @@ var gulpTape = function(opts) {
         tapeStream.push(null);
         callback();
 
-        // Error out if `bail` is `true` and some test failed.
         if (shouldErrorOut) {
           throw new Error('Test failed');
         }
