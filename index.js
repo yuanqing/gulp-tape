@@ -10,24 +10,25 @@ var PLUGIN_NAME = 'gulp-tape';
 var gulpTape = function(opts) {
   opts = opts || {};
 
+  var bail         = opts.bail         || false;
   var outputStream = opts.outputStream || process.stdout;
   var reporter     = opts.reporter     || through.obj();
   var tapeOpts     = opts.tapeOpts     || {};
-  var bail         = opts.bail  || false;
+
   var files        = [];
 
-  var transform = function(file, encoding, cb) {
+  var transform = function(file, encoding, callback) {
     if (file.isNull()) {
-      return cb(null, file);
+      return callback(null, file);
     }
     if (file.isStream()) {
-      return cb(new PluginError(PLUGIN_NAME, 'Streaming is not supported'));
+      return callback(new PluginError(PLUGIN_NAME, 'Streaming is not supported'));
     }
     files.push(file.path);
-    cb(null, file);
+    callback(null, file);
   };
 
-  var flush = function(cb) {
+  var flush = function(callback) {
     try {
       var tapeStream = tape.createStream(tapeOpts);
       tapeStream.pipe(reporter).pipe(outputStream);
@@ -35,10 +36,10 @@ var gulpTape = function(opts) {
         requireUncached(file);
       });
       var results = tape.getHarness()._results;
-      results.once('done', function () {
+      results.once('done', function() {
 
-        // The following messages will never reach the reporter,
-        // if we end the tape output here.
+        // The following messages will never reach the reporter if we end the
+        // tape output here.
         var write = this._stream.push.bind(this._stream);
         write('\n1..' + this.count + '\n');
         write('# tests ' + this.count + '\n');
@@ -46,30 +47,28 @@ var gulpTape = function(opts) {
         if (this.fail) {
           write('# fail  ' + this.fail + '\n');
 
+          // Error out if `bail` is `true` and some test failed.
           if (bail) {
-            return cb(new PluginError(PLUGIN_NAME, 'Test failed'));
+            return callback(new PluginError(PLUGIN_NAME, 'Test failed'));
           }
         } else {
           write('\n# ok\n');
         }
 
-        // Reset the results status
+        // Reset the counts.
         this.count = 0;
         this.fail = 0;
         this.pass = 0;
-
         tapeStream.push(null);
-
-        cb();
+        callback();
       });
 
-      // Each time `tape.createStream` is called,
-      // `results._stream` `pipe` to a new output stream,
-      // and more listeners are added.
-      // So we have to remove the max limit.
+      // This is hacky. Each time `tape.createStream` is called,
+      // `results._stream` pipes to a new output stream, and more listeners
+      // are added, so we have to remove the max limit.
       results._stream.setMaxListeners(0);
     } catch (err) {
-      cb(new PluginError(PLUGIN_NAME, err));
+      callback(new PluginError(PLUGIN_NAME, err));
     }
   };
 
