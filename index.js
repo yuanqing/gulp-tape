@@ -37,6 +37,7 @@ var gulpTape = function(opts) {
       });
       var results = tape.getHarness()._results;
       results.once('done', function() {
+        var shouldErrorOut = false;
 
         // The following messages will never reach the reporter if we end the
         // tape output here.
@@ -46,11 +47,7 @@ var gulpTape = function(opts) {
         write('# pass  ' + this.pass + '\n');
         if (this.fail) {
           write('# fail  ' + this.fail + '\n');
-
-          // Error out if `bail` is `true` and some test failed.
-          if (bail) {
-            return callback(new PluginError(PLUGIN_NAME, 'Test failed'));
-          }
+          shouldErrorOut = bail && true;
         } else {
           write('\n# ok\n');
         }
@@ -61,6 +58,11 @@ var gulpTape = function(opts) {
         this.pass = 0;
         tapeStream.push(null);
         callback();
+
+        // Error out if `bail` is `true` and some test failed.
+        if (shouldErrorOut) {
+          throw new Error('Test failed');
+        }
       });
 
       // This is hacky. Each time `tape.createStream` is called,
