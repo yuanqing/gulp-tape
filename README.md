@@ -29,20 +29,20 @@ var tape = require('gulp-tape');
 
 `opts` is an object literal that can take the following keys:
 
+- `bail` &mdash; Whether to stop the Gulp process on the first failing assertion. Defaults to `false`.
+
 - `outputStream` &mdash; The stream to [pipe the test output](https://github.com/substack/tape#tap-stream-reporter). Defaults to `process.stdout`.
 
 - `reporter` &mdash; The [reporter](https://github.com/substack/tape#pretty-reporters) (a readable/writable stream, as in [`tap-colorize`](https://github.com/substack/tap-colorize)) to format the TAP output. The output is simply not formatted if this isn&rsquo;t specified.
 
 - `tapeOpts` &mdash; The options passed to [`tape.createStream`](https://github.com/substack/tape#var-stream--testcreatestreamopts).
 
-- `bail` &mdash; Whether to stop the Gulp process on the first failing assertion. Defaults to `false`.
-
 ## Installation
 
 Install via [npm](https://npmjs.com/) (together with [Tape](https://github.com/substack/tape)):
 
 ```
-$ npm i --save-dev gulp-tape tape
+$ npm install --save-dev gulp-tape tape
 ```
 
 ## License
