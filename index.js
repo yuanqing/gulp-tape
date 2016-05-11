@@ -13,6 +13,7 @@ var gulpTape = function(opts) {
   var outputStream = opts.outputStream || process.stdout;
   var reporter     = opts.reporter     || through.obj();
   var tapeOpts     = opts.tapeOpts     || {};
+  var bail         = opts.bail  || false;
   var files        = [];
 
   var transform = function(file, encoding, cb) {
@@ -44,6 +45,10 @@ var gulpTape = function(opts) {
         write('# pass  ' + this.pass + '\n');
         if (this.fail) {
           write('# fail  ' + this.fail + '\n');
+
+          if (bail) {
+            return cb(new PluginError(PLUGIN_NAME, 'Test failed'));
+          }
         } else {
           write('\n# ok\n');
         }
