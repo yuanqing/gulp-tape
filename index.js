@@ -61,11 +61,7 @@ var gulpTape = function(opts) {
         this.pass = 0;
         tapeStream.push(null);
 
-        if (shouldErrorOut) {
-          callback(new PluginError(PLUGIN_NAME, 'Test failed'));
-        } else {
-          callback();
-        }
+        callback(shouldErrorOut ? new PluginError(PLUGIN_NAME, 'Test failed') : null);
       });
 
       // This is hacky. Each time `tape.createStream` is called,

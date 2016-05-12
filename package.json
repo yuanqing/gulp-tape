@@ -26,7 +26,7 @@
   "scripts": {
     "build": "npm run lint && npm test",
     "lint": "jshint --verbose index.js",
-    "test": "gulp --cwd test test && gulp --cwd test istanbul"
+    "test": "gulp --cwd test test && gulp --cwd test istanbul && gulp --cwd test test-bail"
   },
   "keywords": [
     "gulpplugin",
