@@ -3,20 +3,8 @@
 var gulp = require('gulp');
 var istanbul = require('gulp-istanbul');
 var tapColorize = require('tap-colorize');
-var gutil = require('gulp-util');
 
 var tape = require('../');
-
-gulp.task('test-bail', function() {
-  return gulp.src('fixtures/test-bail/*.js')
-    .pipe(tape({
-      bail: true,
-      reporter: tapColorize()
-    })).on('error', function(error) {
-      gutil.log(error.message);
-      process.exit(0);
-    });
-});
 
 gulp.task('test', function() {
   return gulp.src('fixtures/test/*.js')
