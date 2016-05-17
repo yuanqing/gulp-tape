@@ -1,6 +1,7 @@
 'use strict';
 
 var gulp = require('gulp');
+var gutil = require('gulp-util');
 var istanbul = require('gulp-istanbul');
 var tapColorize = require('tap-colorize');
 
@@ -9,8 +10,13 @@ var tape = require('../');
 gulp.task('test', function() {
   return gulp.src('fixtures/test/*.js')
     .pipe(tape({
+      bail: true,
       reporter: tapColorize()
-    }));
+    }))
+    .on('error', function(error) {
+      gutil.log(error.message);
+      process.exit(1);
+    });
 });
 
 gulp.task('istanbul', function(cb) {
