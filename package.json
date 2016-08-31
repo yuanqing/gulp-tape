@@ -10,7 +10,7 @@
   },
   "dependencies": {
     "gulp-util": "^3.0.7",
-    "require-uncached": "^1.0.2",
+    "require-cache-control": "^0.1.0",
     "through2": "^2.0.0"
   },
   "devDependencies": {

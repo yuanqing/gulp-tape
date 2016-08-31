@@ -3,7 +3,7 @@
 var tape = require('tape');
 var through = require('through2');
 var PluginError = require('gulp-util').PluginError;
-var requireUncached = require('require-uncached');
+var rcc = require('require-cache-control');
 
 var PLUGIN_NAME = 'gulp-tape';
 
@@ -33,7 +33,9 @@ var gulpTape = function(opts) {
       var tapeStream = tape.createStream(tapeOpts);
       tapeStream.pipe(reporter).pipe(outputStream);
       files.forEach(function(file) {
-        requireUncached(file);
+        rcc.snapshot();
+        require(file);
+        rcc.restore();
       });
       var results = tape.getHarness()._results;
       results.once('done', function() {
