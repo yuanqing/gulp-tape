@@ -2,7 +2,7 @@
 
 var tape = require('tape')
 var through = require('through2')
-var PluginError = require('gulp-util').PluginError
+var PluginError = require('plugin-error')
 var requireUncached = require('require-uncached')
 
 var PLUGIN_NAME = 'gulp-tape'
