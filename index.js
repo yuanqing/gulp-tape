@@ -1,7 +1,8 @@
 const childProcess = require('child_process')
-const PluginError = require('plugin-error')
-const through = require('through2')
 const dargs = require('dargs')
+const PluginError = require('plugin-error')
+const TapParser = require('tap-parser')
+const through = require('through2')
 
 const PLUGIN_NAME = 'gulp-tape'
 const TAPE_BINARY_FILEPATH = require.resolve('tape/bin/tape')
@@ -10,6 +11,9 @@ function gulpTape (options) {
   options = options || {}
 
   const files = []
+
+  const outputStream = options.outputStream || process.stdout
+  const bail = options.bail
 
   function transform (file, encoding, callback) {
     if (file.isNull()) {
@@ -27,16 +31,29 @@ function gulpTape (options) {
   function flush (callback) {
     const command = [TAPE_BINARY_FILEPATH]
       .concat(files)
-      .concat(dargs(options, ['reporter', 'outputStream']))
+      .concat(
+        dargs(options, { excludes: ['bail', 'outputStream']})
+      )
       .join(' ')
     const tapeProcess = childProcess.exec(command, function (error) {
       if (error) {
         callback(new PluginError(PLUGIN_NAME, error))
       }
     })
-    tapeProcess.stdout
-      .pipe(options.reporter || through())
-      .pipe(options.outputStream || process.stdout)
+    tapeProcess.stdout.on('end', callback)
+
+    const tapParserStream = new TapParser()
+    if (options.bail) {
+      tapParserStream.on('assert', function (assert) {
+        if (!assert.ok) {
+          callback(new PluginError(PLUGIN_NAME, 'Test failed'))
+        }
+      })
+    }
+    tapParserStream.on('line', function (line) {
+      outputStream.write(line)
+    })
+    tapeProcess.stdout.pipe(tapParserStream)
   }
 
   return through.obj(transform, flush)

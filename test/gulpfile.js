@@ -1,6 +1,5 @@
 const gulp = require('gulp')
 const gutil = require('gulp-util')
-const tapColorize = require('tap-colorize')
 
 const tape = require('../')
 
@@ -9,7 +8,7 @@ gulp.task('test', function () {
     .src('fixtures/test.js')
     .pipe(
       tape({
-        reporter: tapColorize()
+        bail: true
       })
     )
     .on('error', function (error) {
