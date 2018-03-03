@@ -1,14 +1,14 @@
-'use strict';
+'use strict'
 
-var test = require('tape');
-var abs = require('../');
+var test = require('tape')
+var abs = require('../')
 
-test('negative', function(t) {
-  t.equal(abs(-1), 1);
-  t.end();
-});
+test('negative', function (t) {
+  t.equal(abs(-1), 1)
+  t.end()
+})
 
-test('positive', function(t) {
-  t.equal(abs(1), 1);
-  t.end();
-});
+test('positive', function (t) {
+  t.equal(abs(1), 1)
+  t.end()
+})

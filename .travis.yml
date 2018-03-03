@@ -4,9 +4,8 @@ notifications:
 language: node_js
 
 node_js:
-  - '0.12'
-  - '4'
-  - 'stable'
+  - 'node'
 
 script:
-  - npm run build
+  - yarn lint
+  - yarn test

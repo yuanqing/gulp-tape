@@ -1,11 +1,11 @@
-'use strict';
+'use strict'
 
-module.exports = function(v) {
+module.exports = function (v) {
   if (v > 0) {
-    return v;
+    return v
   }
   if (v < 0) {
-    return -v;
+    return -v
   }
-  return 0;
-};
+  return 0
+}
