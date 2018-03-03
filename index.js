@@ -1,23 +1,23 @@
 'use strict'
 
-var tape = require('tape')
-var through = require('through2')
-var PluginError = require('plugin-error')
-var requireUncached = require('require-uncached')
+const tape = require('tape')
+const through = require('through2')
+const PluginError = require('plugin-error')
+const requireUncached = require('require-uncached')
 
-var PLUGIN_NAME = 'gulp-tape'
+const PLUGIN_NAME = 'gulp-tape'
 
-var gulpTape = function (opts) {
-  opts = opts || {}
+function gulpTape (options) {
+  options = options || {}
 
-  var bail = opts.bail || false
-  var outputStream = opts.outputStream || process.stdout
-  var reporter = opts.reporter || through.obj()
-  var tapeOpts = opts.tapeOpts || {}
+  const bail = options.bail || false
+  const outputStream = options.outputStream || process.stdout
+  const reporter = options.reporter || through.obj()
+  const tapeOpts = options.tapeOpts || {}
 
-  var files = []
+  const files = []
 
-  var transform = function (file, encoding, callback) {
+  function transform (file, encoding, callback) {
     if (file.isNull()) {
       return callback(null, file)
     }
@@ -30,20 +30,20 @@ var gulpTape = function (opts) {
     callback(null, file)
   }
 
-  var flush = function (callback) {
+  function flush (callback) {
     try {
-      var tapeStream = tape.createStream(tapeOpts)
+      const tapeStream = tape.createStream(tapeOpts)
       tapeStream.pipe(reporter).pipe(outputStream)
       files.forEach(function (file) {
         requireUncached(file)
       })
-      var results = tape.getHarness()._results
+      const results = tape.getHarness()._results
       results.once('done', function () {
-        var shouldErrorOut = false
+        let shouldErrorOut = false
 
         // The following messages will never reach the reporter if we end the
         // tape output here.
-        var write = this._stream.push.bind(this._stream)
+        const write = this._stream.push.bind(this._stream)
         write('\n1..' + this.count + '\n')
         write('# tests ' + this.count + '\n')
         write('# pass  ' + this.pass + '\n')
@@ -72,8 +72,8 @@ var gulpTape = function (opts) {
       // `results._stream` pipes to a new output stream, and more listeners
       // are added, so we have to remove the max limit.
       results._stream.setMaxListeners(0)
-    } catch (err) {
-      callback(new PluginError(PLUGIN_NAME, err))
+    } catch (error) {
+      callback(new PluginError(PLUGIN_NAME, error))
     }
   }
 
