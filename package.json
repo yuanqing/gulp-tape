@@ -9,7 +9,7 @@
     "url": "git://github.com/yuanqing/gulp-tape.git"
   },
   "dependencies": {
-    "require-uncached": "^1.0.2",
+    "dargs": "^5.1.0",
     "through2": "^2.0.0"
   },
   "devDependencies": {
@@ -23,8 +23,8 @@
     "tape": "*"
   },
   "scripts": {
-    "lint": "prettier-standard ./index.js \"./test/**/*.js\" --no-semi --single-quote --write",
-    "test": "gulp --cwd ./test test"
+    "lint": "prettier-standard index.js 'test/**/*.js' --no-semi --single-quote --write",
+    "test": "gulp --cwd test test"
   },
   "keywords": [
     "gulpplugin",

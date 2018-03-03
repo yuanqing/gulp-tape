@@ -9,7 +9,6 @@ gulp.task('test', function () {
     .src('fixtures/test.js')
     .pipe(
       tape({
-        bail: true,
         reporter: tapColorize()
       })
     )
