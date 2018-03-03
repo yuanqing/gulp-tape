@@ -23,8 +23,8 @@
     "tape": "*"
   },
   "scripts": {
-    "lint": "prettier-standard index.js \"test/**/*.js\" --no-semi --single-quote --write",
-    "test": "gulp --cwd test test && gulp --cwd test istanbul"
+    "lint": "prettier-standard ./index.js \"./test/**/*.js\" --no-semi --single-quote --write",
+    "test": "gulp --cwd ./test test"
   },
   "keywords": [
     "gulpplugin",
