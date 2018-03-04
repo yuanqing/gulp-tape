@@ -19,10 +19,7 @@
     "gulp": "^3.9.0",
     "prettier-standard": "^8.0.0",
     "standard": "^11.0.0",
-    "tape": "*"
-  },
-  "peerDependencies": {
-    "tape": "*"
+    "tape": "^4.9.0"
   },
   "scripts": {
     "fix": "prettier-standard index.js 'test/**/*.js' --no-semi --single-quote --write",
