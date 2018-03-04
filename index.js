@@ -12,9 +12,6 @@ function gulpTape (options) {
 
   const files = []
 
-  const outputStream = options.outputStream || process.stdout
-  const bail = options.bail
-
   function transform (file, encoding, callback) {
     if (file.isNull()) {
       callback(null, file)
@@ -33,6 +30,7 @@ function gulpTape (options) {
       .concat(files)
       .concat(dargs(options, { excludes: ['bail', 'outputStream'] }))
       .join(' ')
+
     const tapeProcess = childProcess.exec(command, function (error) {
       if (error) {
         callback(new PluginError(PLUGIN_NAME, error))
@@ -40,18 +38,20 @@ function gulpTape (options) {
     })
     tapeProcess.stdout.on('end', callback)
 
-    const tapParserStream = new TapParser()
+    const outputStream = options.outputStream || process.stdout
+    const tapParser = new TapParser()
     if (options.bail) {
-      tapParserStream.on('assert', function (assert) {
+      tapParser.on('assert', function (assert) {
         if (!assert.ok) {
           callback(new PluginError(PLUGIN_NAME, 'Test failed'))
         }
       })
     }
-    tapParserStream.on('line', function (line) {
+    tapParser.on('line', function (line) {
       outputStream.write(line)
     })
-    tapeProcess.stdout.pipe(tapParserStream)
+
+    tapeProcess.stdout.pipe(tapParser)
   }
 
   return through.obj(transform, flush)
