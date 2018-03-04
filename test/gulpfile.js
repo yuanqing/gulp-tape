@@ -1,5 +1,5 @@
 const gulp = require('gulp')
-const gutil = require('gulp-util')
+const log = require('fancy-log')
 
 const tape = require('../')
 
@@ -12,7 +12,7 @@ gulp.task('test', function () {
       })
     )
     .on('error', function (error) {
-      gutil.log(error.message)
+      log(error.message)
       process.exit(1)
     })
 })

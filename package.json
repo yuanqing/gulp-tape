@@ -10,20 +10,23 @@
   },
   "dependencies": {
     "dargs": "^5.1.0",
+    "fancy-log": "^1.3.2",
+    "plugin-error": "^1.0.1",
     "tap-parser": "^7.0.0",
     "through2": "^2.0.0"
   },
   "devDependencies": {
     "gulp": "^3.9.0",
-    "plugin-error": "^1.0.1",
     "prettier-standard": "^8.0.0",
+    "standard": "^11.0.0",
     "tape": "*"
   },
   "peerDependencies": {
     "tape": "*"
   },
   "scripts": {
-    "lint": "prettier-standard index.js 'test/**/*.js' --no-semi --single-quote --write",
+    "fix": "prettier-standard index.js 'test/**/*.js' --no-semi --single-quote --write",
+    "lint": "standard index.js 'test/**/*.js'",
     "test": "gulp --cwd test test"
   },
   "keywords": [
