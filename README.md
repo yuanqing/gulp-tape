@@ -34,16 +34,16 @@ Key | Description | Default
 
 ## Installation
 
-Install via [npm](https://npmjs.com):
-
-```sh
-$ npm install --save-dev gulp-tape
-```
-
-Or [yarn](https://yarnpkg.com):
+Install via [yarn](https://yarnpkg.com):
 
 ```sh
 $ yarn add --dev gulp-tape
+```
+
+Or [npm](https://npmjs.com):
+
+```sh
+$ npm install --save-dev gulp-tape
 ```
 
 ## License
