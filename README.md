@@ -5,44 +5,45 @@
 ## Usage
 
 ```js
-'use strict';
+const gulp = require('gulp')
+const tape = require('gulp-tape')
 
-var gulp = require('gulp');
-var tape = require('gulp-tape');
-var tapColorize = require('tap-colorize');
-
-gulp.task('test', function() {
+gulp.task('test', function () {
   return gulp.src('test/*.js')
     .pipe(tape({
-      reporter: tapColorize()
-    }));
-});
+      bail: true
+    }))
+})
 ```
 
 ## API
 
 ```js
-var tape = require('gulp-tape');
+const tape = require('gulp-tape')
 ```
 
-### tape([opts])
+### tape([options])
 
-`opts` is an object literal that can take the following keys:
+`options` is an optional object literal.
 
-- `bail` &mdash; Whether to stop the Gulp process on the first failing assertion. Defaults to `false`.
-
-- `outputStream` &mdash; The stream to [pipe the test output](https://github.com/substack/tape#tap-stream-reporter). Defaults to `process.stdout`.
-
-- `reporter` &mdash; The [reporter](https://github.com/substack/tape#pretty-reporters) (a readable/writable stream, as in [`tap-colorize`](https://github.com/substack/tap-colorize)) to format the TAP output. The output is simply not formatted if this isn&rsquo;t specified.
-
-- `tapeOpts` &mdash; The options passed to [`tape.createStream`](https://github.com/substack/tape#var-stream--testcreatestreamopts).
+Key | Description | Default
+:-|:-|:-
+`bail` | Whether to stop the Gulp process on the first failing assertion. | `false`
+`outputStream` | The stream to [pipe the test output](https://github.com/substack/tape#tap-stream-reporter). | `process.stdout`
+`require` | [Modules to load](https://github.com/substack/tape#preloading-modules) before running the tests. | `undefined`
 
 ## Installation
 
-Install via [npm](https://npmjs.com/) (together with [Tape](https://github.com/substack/tape)):
+Install via [npm](https://npmjs.com):
 
+```sh
+$ npm install --save-dev gulp-tape
 ```
-$ npm install --save-dev gulp-tape tape
+
+Or [yarn](https://yarnpkg.com):
+
+```sh
+$ yarn add --dev gulp-tape
 ```
 
 ## License
