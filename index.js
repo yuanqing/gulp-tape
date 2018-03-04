@@ -31,9 +31,7 @@ function gulpTape (options) {
   function flush (callback) {
     const command = [TAPE_BINARY_FILEPATH]
       .concat(files)
-      .concat(
-        dargs(options, { excludes: ['bail', 'outputStream']})
-      )
+      .concat(dargs(options, { excludes: ['bail', 'outputStream'] }))
       .join(' ')
     const tapeProcess = childProcess.exec(command, function (error) {
       if (error) {
