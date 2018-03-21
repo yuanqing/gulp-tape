@@ -1,11 +1,12 @@
 const childProcess = require('child_process')
 const dargs = require('dargs')
+const path = require('path')
 const PluginError = require('plugin-error')
 const TapParser = require('tap-parser')
 const through = require('through2')
 
 const PLUGIN_NAME = 'gulp-tape'
-const TAPE_BINARY_FILEPATH = require.resolve('tape/bin/tape')
+const TAPE_BINARY_FILEPATH = path.resolve(__dirname, '../.bin/tape')
 
 function gulpTape (options) {
   options = options || {}
