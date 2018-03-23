@@ -5,7 +5,7 @@ const TapParser = require('tap-parser')
 const through = require('through2')
 
 const PLUGIN_NAME = 'gulp-tape'
-const TAPE_BINARY_FILEPATH = require.resolve('tape/bin/tape')
+const TAPE_BINARY_FILEPATH = require.resolve('.bin/tape')
 
 function gulpTape (options) {
   options = options || {}

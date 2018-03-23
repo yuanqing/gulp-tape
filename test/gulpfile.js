@@ -1,13 +1,12 @@
 const gulp = require('gulp')
 const log = require('fancy-log')
-
-const tape = require('../')
+const gulptape = require('../')
 
 gulp.task('test', function () {
   return gulp
     .src('fixtures/test.js')
     .pipe(
-      tape({
+      gulptape({
         bail: true
       })
     )
