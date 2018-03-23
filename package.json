@@ -22,7 +22,7 @@
     "tape": "^4.9.0"
   },
   "scripts": {
-    "fix": "prettier-standard index.js 'test/**/*.js' --no-semi --single-quote --write",
+    "fix": "prettier-standard index.js 'test/**/*.js'",
     "lint": "standard index.js 'test/**/*.js'",
     "test": "gulp --cwd test test"
   },
