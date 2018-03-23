@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.0.11
+
+- Change how we resolve the path to the `tape` binary, to support Windows
+
+## 0.0.10
+
+- Change approach to run tests in a child process, leveraging the `tape` module CLI
+
 ## 0.0.8
 
 - Allow `opts.bail` to allow exiting the Gulp process if some assertion failed
