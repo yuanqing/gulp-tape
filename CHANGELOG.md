@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.0.0
+
+- Add support for test coverage via `nyc`
+
 ## 0.0.11
 
 - Change how we resolve the path to the `tape` binary, to support Windows
