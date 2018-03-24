@@ -1,6 +1,6 @@
 {
   "name": "gulp-tape",
-  "version": "0.0.11",
+  "version": "1.0.0",
   "description": "Run Tape tests in Gulp.",
   "author": "Lim Yuan Qing",
   "license": "MIT",
