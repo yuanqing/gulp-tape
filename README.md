@@ -29,8 +29,9 @@ const tape = require('gulp-tape')
 Key | Description | Default
 :-|:-|:-
 `bail` | Whether to stop the Gulp process on the first failing assertion. | `false`
+`nyc` | Whether to compute test coverage using [`nyc`](https://github.com/istanbuljs/nyc). (Specify `nyc` options in your `package.json`.) | `false`
 `outputStream` | The stream to [pipe the test output](https://github.com/substack/tape#tap-stream-reporter). | `process.stdout`
-`require` | [Modules to load](https://github.com/substack/tape#preloading-modules) before running the tests. | `undefined`
+`require` | [Modules to load](https://github.com/substack/tape#preloading-modules) before running the tests. | `[]`
 
 ## Installation
 
