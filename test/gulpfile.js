@@ -7,7 +7,8 @@ gulp.task('test', function () {
     .src('fixtures/test.js')
     .pipe(
       tape({
-        bail: true
+        bail: true,
+        nyc: true
       })
     )
     .on('error', function (error) {

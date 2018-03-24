@@ -4,8 +4,8 @@ const PluginError = require('plugin-error')
 const TapParser = require('tap-parser')
 const through = require('through2')
 
-const PLUGIN_NAME = 'gulp-tape'
-const TAPE_BINARY_FILEPATH = require.resolve('.bin/tape')
+const pluginName = 'gulp-tape'
+const tapeBinaryFilepath = require.resolve('.bin/tape')
 
 function gulpTape (options) {
   options = options || {}
@@ -18,7 +18,7 @@ function gulpTape (options) {
       return
     }
     if (file.isStream()) {
-      callback(new PluginError(PLUGIN_NAME, 'Streaming is not supported'))
+      callback(new PluginError(pluginName, 'Streaming is not supported'))
       return
     }
     files.push(file.path)
@@ -26,14 +26,18 @@ function gulpTape (options) {
   }
 
   function flush (callback) {
-    const command = [TAPE_BINARY_FILEPATH]
+    const args = [tapeBinaryFilepath]
       .concat(files)
-      .concat(dargs(options, { excludes: ['bail', 'outputStream'] }))
-      .join(' ')
+      .concat(dargs(options, { excludes: ['bail', 'nyc', 'outputStream'] }))
 
-    const tapeProcess = childProcess.exec(command, function (error) {
+    if (options.nyc) {
+      const nycBinaryFilePath = require.resolve('.bin/nyc')
+      args.unshift(nycBinaryFilePath)
+    }
+
+    const tapeProcess = childProcess.exec(args.join(' '), function (error) {
       if (error) {
-        callback(new PluginError(PLUGIN_NAME, error))
+        callback(new PluginError(pluginName, error))
       }
     })
     tapeProcess.stdout.on('end', callback)
@@ -43,7 +47,7 @@ function gulpTape (options) {
     if (options.bail) {
       tapParser.on('assert', function (assert) {
         if (!assert.ok) {
-          callback(new PluginError(PLUGIN_NAME, 'Test failed'))
+          callback(new PluginError(pluginName, 'Test failed'))
         }
       })
     }
