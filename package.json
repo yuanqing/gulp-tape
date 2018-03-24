@@ -27,6 +27,9 @@
     "lint": "standard index.js 'test/**/*.js'",
     "test": "gulp --cwd test test"
   },
+  "files": [
+    "index.js"
+  ],
   "keywords": [
     "gulpplugin",
     "tape",
