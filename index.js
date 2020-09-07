@@ -36,7 +36,7 @@ function gulpTape (options) {
     }
 
     var cmd = args.join(' ').split(' ');
-    const tapeProcess = childProcess.execFile(cmd[0], cmd.shift(), function (error) {
+    const tapeProcess = childProcess.execFile(cmd[0], cmd.slice(1), function (error) {
       if (error) {
         callback(new PluginError(pluginName, error))
       }
